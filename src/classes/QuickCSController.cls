@@ -45,31 +45,31 @@ public class QuickCSController{
                 
                 //Apex Classes
                 if(!String.isBlank(csvRecordData[0]))
-                    changeSet.apexClassMap.put(csvRecordData[0], null);
+                    changeSet.apexClassMap.put(csvRecordData[0].trim(), null);
                 
                 //Apex Triggers
                 if(!String.isBlank(csvRecordData[1]))
-                    changeSet.apexTriggerMap.put(csvRecordData[1], null);
+                    changeSet.apexTriggerMap.put(csvRecordData[1].trim(), null);
                 
                 //Apex Pages
                 if(!String.isBlank(csvRecordData[2]))
-                    changeSet.apexPageMap.put(csvRecordData[2], null);
+                    changeSet.apexPageMap.put(csvRecordData[2].trim(), null);
                 
                 //Visualforce Components
                 if(!String.isBlank(csvRecordData[3]))
-                    changeSet.apexComponentMap.put(csvRecordData[3], null);
+                    changeSet.apexComponentMap.put(csvRecordData[3].trim(), null);
             
                 //Email Templates
                 if(!String.isBlank(csvRecordData[4]))
-                    changeSet.emailTemplateMap.put(csvRecordData[4], null);
+                    changeSet.emailTemplateMap.put(csvRecordData[4].trim(), null);
                 
                 //Static Resources
                 if(!String.isBlank(csvRecordData[5]))
-                    changeSet.staticResourceMap.put(csvRecordData[5], null);
+                    changeSet.staticResourceMap.put(csvRecordData[5].trim(), null);
                 
                 //Custom Objects
                 if(!String.isBlank(csvRecordData[6]))                    
-                    changeSet.customObjectMap.put(csvRecordData[6].replace('__c',''), null);
+                    changeSet.customObjectMap.put(csvRecordData[6].replace('__c','').trim(), null);
             
                 //Custom Fields
                 if(!String.isBlank(csvRecordData[7])){    
@@ -97,15 +97,15 @@ public class QuickCSController{
                 
                 //Email Alerts
                 if(!String.isBlank(csvRecordData[9]))
-                    changeSet.emailAlertMap.put(csvRecordData[9], null);
+                    changeSet.emailAlertMap.put(csvRecordData[9].trim(), null);
                 
                 //Workflow Field Updates
                 if(!String.isBlank(csvRecordData[10]))
-                    changeSet.workflowUpdateMap.put(csvRecordData[10], null);
+                    changeSet.workflowUpdateMap.put(csvRecordData[10].trim(), null);
                 
                 //Custom Labels
                 if(!String.isBlank(csvRecordData[11]))
-                    changeSet.customLabelMap.put(csvRecordData[11], null);
+                    changeSet.customLabelMap.put(csvRecordData[11].trim(), null);
                 
                 //Record Types
                 if(!String.isBlank(csvRecordData[12])){    
@@ -161,7 +161,7 @@ public class QuickCSController{
         fillComponentMap(changeSet.workflowRuleSet, changeSet.workflowRuleMap, changeSet.reverseObjectMap, 'WorkflowRule', 'Name', true);
         
         fillComponentMap(changeSet.customFieldSet, changeSet.objectFieldMap, changeSet.reverseObjectMap, 'CustomField', 'DeveloperName', true);
-        
+        system.debug(changeSet.objectFieldMap);
         fillComponentMap(changeSet.emailAlertMap.keyset(), changeSet.emailAlertMap, changeSet.reverseObjectMap, 'WorkflowAlert', 'DeveloperName');
         
         fillComponentMap(changeSet.workflowUpdateMap.keyset(), changeSet.workflowUpdateMap, changeSet.reverseObjectMap, 'WorkflowFieldUpdate', 'Name');
@@ -221,6 +221,7 @@ public class QuickCSController{
   private void fillSobjectComponentMap(map<string,string> recordsNameMap, string objectType){
       if(recordsNameMap.size() > 0){
         set<string> recordNames = recordsNameMap.keySet();
+        system.debug('---' + recordNames );
         for(Sobject cls : Database.Query('select id, name from ' + objectType + ' where name in :recordNames')){            
             recordsNameMap.put((string)cls.get('Name'), (string)cls.get('Id'));
         } 
@@ -299,7 +300,6 @@ public class QuickCSController{
       public set<string> recordTypeNames {get;set;}
       public set<string> workflowRuleSet {get;set;}
       public map<string,string> customObjectMap{get;set;}
-      public map<string,string> customFieldMap {get;set;}
       public set<string> customFieldSet {get;set;}
       public map<string,string> objectMap {get;set;}
       public map<string,string> fieldMap {get;set;}
@@ -323,7 +323,6 @@ public class QuickCSController{
           workflowRuleSet = new set<string>();
           recordTypeNames = new set<string>();
           customObjectMap = new map<string,string>();
-          customFieldMap = new map<string,string>();
           customFieldSet = new set<string>();
           objectMap = new map<string,string>();
           reverseObjectMap = new map<string,string>();
@@ -367,8 +366,8 @@ public class QuickCSController{
           return customObjectMap.size();
       }
       
-      public integer getCustomFieldMapSize(){
-          return customFieldMap.size();
+      public integer getObjectFieldMapSize(){
+          return objectFieldMap.size();
       }
       
       public integer getWorkflowRuleMapSize(){

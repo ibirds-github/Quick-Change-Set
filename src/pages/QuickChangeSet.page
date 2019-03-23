@@ -4,20 +4,23 @@
         <script src="{!URLFOR($Resource.quick_change_set,'jquery.min.js')}"></script>
         <script>
             $( document ).ready(function() {
-            $("iframe[name^='frm__']").each(function(i, e){
-                $(e).on("load", function () {
-                    if($(e).attr("name") == 'frm__PageLayout'){
-                        $("#loading").hide();
-                        $("#success_message").show();
-                    }
-                    //console.log($(e).attr("name"));
-                });
-            });  
-            
-            var sUrl = "{!URLFOR($Action.Account.New)}";
-            
-            $("input[id$='serverUrlInput']").val(get_hostname(sUrl));          
-        });
+                $("iframe[name^='frm__']").each(function(i, e){
+                    $(e).on("load", function () {
+                    
+                        //This is important section. As in this first release, we have page layouts as last section to process
+                        //We need to show success message after this section.
+                        //If you have added multiple sections more in future, you need to add your last iFrame section name here
+                        if($(e).attr("name") == 'frm__PageLayout'){
+                            $("#loading").hide();
+                            $("#success_message").show();
+                        }
+                    });
+                });  
+                
+                var sUrl = "{!URLFOR($Action.Account.New)}";
+                
+                $("input[id$='serverUrlInput']").val(get_hostname(sUrl));          
+            });
         
         function submitData(){
             $("#loading").show();
@@ -29,55 +32,55 @@
         
         function get_hostname(url) {
             var m = url.match(/^https:\/\/[^/]+/);
-                              return m ? m[0] : null;
-                              }
-                              
-                              </script>
+            return m ? m[0] : null;
+        }
+        
+        </script>
         <style>
             #loading {
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            position: fixed;
-            display: block;
-            opacity: 0.7;
-            background-color: #fff;
-            z-index: 99;
-            text-align: center;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                position: fixed;
+                display: block;
+                opacity: 0.7;
+                background-color: #fff;
+                z-index: 99;
+                text-align: center;
             }
             
             #loading-image {
-            position: relative;
-            top: 50%;
-            z-index: 100;
+                position: relative;
+                top: 50%;
+                z-index: 100;
             }
             
             .apexp .bPageBlock.apexDefaultPageBlock .pbBody .pbSubheader h3{
-            display: inline;
+                display: inline;
             }
             
             body .bPageBlock .pbBody .pbSubheader img{
-            margin-top: -5px;
+                margin-top: -5px;
             }
             
             body .bPageBlock{
-            background: none !important;
+                background: none !important;
             }
             
             body .bPageTitle {
-            padding-top: 0px;
+                padding-top: 0px;
             }
             
             table.componentTable .dataCell{
-            vertical-align:top !important;
-            background-color: #fbfbfb;
+                vertical-align:top !important;
+                background-color: #fbfbfb;
             }
         </style>
     </head>
     <apex:sectionHeader title="Change Set" subtitle="From CSV"/>
-    <apex:pageBlock id="pbBlock"> 
-        <apex:form id="frm">
+        <apex:pageBlock id="pbBlock"> 
+            <apex:form id="frm">
             <apex:inputHidden id="serverUrlInput" value="{!serverUrlInput}"/>
             <apex:pageBlockSection title="User Input" columns="1" >
                 <apex:pageBlockSectionItem >
@@ -98,326 +101,326 @@
                 </apex:pageBlockSectionItem>
                 
             </apex:pageBlockSection>
-        </apex:form>
-        <div style="display:none">
-            
-            <iframe name="frm__ApexClass"></iframe>
-            
-            <form target="frm__ApexClass" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__ApexClass">
+                </apex:form>
+            <div style="display:none">
                 
-                <input type="text" name="entityType" value="ApexClass"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.apexClassMap}" var="apxCls">
-                    <input type="text" name="ids" value="{!changeSet.apexClassMap[apxCls]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__Trigger"></iframe>
-            
-            <form target="frm__Trigger" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__Trigger">
-                <input type="text" name="entityType" value="ApexTrigger"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.apexTriggerMap}" var="apxTgr">
-                    <input type="text" name="ids" value="{!changeSet.apexTriggerMap[apxTgr]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__ApexPage"></iframe>
-            <form target="frm__ApexPage" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__ApexPage">
-                <input type="text" name="entityType" value="ApexPage"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.apexPageMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.apexPageMap[custField]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__ApexComponent"></iframe>
-            <form target="frm__ApexComponent" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__ApexComponent">
-                <input type="text" name="entityType" value="ApexComponent"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.apexComponentMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.apexComponentMap[custField]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__EmailTemplate"></iframe>
-            <form target="frm__EmailTemplate" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__EmailTemplate">
-                <input type="text" name="entityType" value="EmailTemplate"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.emailTemplateMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.emailTemplateMap[custField]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__StaticResource"></iframe>
-            <form target="frm__StaticResource" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__StaticResource">
-                <input type="text" name="entityType" value="StaticResource"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.staticResourceMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.staticResourceMap[custField]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__CustomObject"></iframe>
-            <form target="frm__CustomObject" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__CustomObject">
-                <input type="text" name="entityType" value="CustomEntityDefinition"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.customObjectMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.customObjectMap[custField]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__WorkflowRule"></iframe>
-            <form target="frm__WorkflowRule" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__WorkflowRule">
-                <input type="text" name="entityType" value="WorkflowRule"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.workflowRuleMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.workflowRuleMap[custField]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__CustomFieldDefinition"></iframe>
-            <form target="frm__CustomFieldDefinition" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__CustomFieldDefinition">
-                <input type="text" name="entityType" value="CustomFieldDefinition"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.objectFieldMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.objectFieldMap[custField]}"/>
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__EmailAlert"></iframe>
-            <form target="frm__EmailAlert" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__EmailAlert">
-                <input type="text" name="entityType" value="ActionEmail"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.emailAlertMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.emailAlertMap[custField]}"/> 
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__WorkflowUpdate"></iframe>
-            <form target="frm__WorkflowUpdate" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__WorkflowUpdate">
-                <input type="text" name="entityType" value="ActionFieldUpdate"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.workflowUpdateMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.workflowUpdateMap[custField]}"/> 
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__CustomLabel"></iframe>
-            <form target="frm__CustomLabel" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__CustomLabel">
-                <input type="text" name="entityType" value="ExternalString"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.customLabelMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.customLabelMap[custField]}"/> 
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__RecordType"></iframe>
-            <form target="frm__RecordType" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__RecordType">
-                <input type="text" name="entityType" value="RecordType"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.recordTypeMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.recordTypeMap[custField]}"/> 
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form>
-            
-            <iframe name="frm__PageLayout"></iframe>
-            <form target="frm__PageLayout" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__PageLayout">
-                <input type="text" name="entityType" value="Layout"/>
-                <input type="text" name="id" value="{!changesetId}"/>
-                <apex:repeat value="{!changeSet.objectLayoutMap}" var="custField">
-                    <input type="text" name="ids" value="{!changeSet.objectLayoutMap[custField]}"/> 
-                </apex:repeat>
-                <input type="text" name="save" value="Add To Change Set"/>
-                <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
-            </form> 
-        </div>
-        
-        <div class="message confirmM3" role="alert" id="success_message" style="display:none">
-            <table border="0" cellpadding="0" cellspacing="0" class="messageTable" style="padding:0px;margin:0px;">
-                <tbody><tr valign="top">
-                    <td style="width:30px;">
-                        <img alt="confirm" class="msgIcon" src="/s.gif" title="confirm"/>
-                    </td>
-                    <td class="messageCell"><div class="messageText"><span>
-                        <h4></h4></span>Components successfully added to<big><a style="text-decoration:underline" href="/{!changesetId}">changeset.</a></big><br/></div>
-                    </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                        </td>
-                    </tr>
-                </tbody></table>
-        </div>
-        <apex:pageBlockSection title="Change Set Components" columns="1" rendered="{!fileUploaded}">
-            <apex:pageBlockSectionItem >
-                <apex:outputPanel layout="block">
-                    <button onclick="submitData()" id="btnSb" class="slds-button slds-button_brand">Confirm Submit</button> 
+                <iframe name="frm__ApexClass"></iframe>
+                
+                <form target="frm__ApexClass" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__ApexClass">
                     
-                    <apex:pageBlockTable value="{!lstTable}" var="itr" style="margin-top:8px;" styleClass="componentTable">
-                        <apex:column rendered="{!changeSet.apexClassMapSize > 0}" headerValue="Apex Classes">
-                            <div class="slds-truncate" title="Apex Classes">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.apexClassMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.apexClassMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.apexTriggerMapSize > 0}" headerValue="Apex Triggers">
-                            <div class="slds-truncate" title="Apex Triggers">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.apexTriggerMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.apexTriggerMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.apexPageMapSize > 0}" headerValue="Visualforce Pages">
-                            <div class="slds-truncate" title="Visualforce Pages">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.apexPageMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.apexPageMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.apexComponentMapSize > 0}" headerValue="Visualforce Components">
-                            <div class="slds-truncate" title="Visualforce Components">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.apexComponentMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.apexComponentMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.emailTemplateMapSize > 0}" headerValue="Email Templates">
-                            <div class="slds-truncate" title="Email Templates">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.emailTemplateMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.emailTemplateMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.staticResourceMapSize > 0}" headerValue="Static Resources">
-                            <div class="slds-truncate" title="Static Resources">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.staticResourceMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.staticResourceMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.customObjectMapSize > 0}" headerValue="Custom Objects">
-                            <div class="slds-truncate" title="Custom Objects">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.customObjectMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.customObjectMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.customFieldMapSize > 0}" headerValue="Custom Fields">
-                            <div class="slds-truncate" title="Custom Objects">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.customFieldMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.customFieldMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                            
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.workflowRuleMapSize > 0}" headerValue="Workflow Rules">
-                            <div class="slds-truncate" title="Workflow Rules">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.workflowRuleMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.workflowRuleMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.emailAlertMapSize > 0}" headerValue="Email Alerts">
-                            <div class="slds-truncate" title="Email Alerts">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.emailAlertMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.emailAlertMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.workflowUpdateMapSize > 0}" headerValue="Field Updates">
-                            <div class="slds-truncate" title="Field Updates">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.workflowUpdateMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.workflowUpdateMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.customLabelMapSize > 0}" headerValue="Custom Labels">
-                            <div class="slds-truncate" title="Custom Labels">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.customLabelMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.customLabelMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.recordTypeMapSize > 0}" headerValue="Record Types">
-                            <div class="slds-truncate" title="Record Types">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.recordTypeMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.recordTypeMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                        <apex:column rendered="{!changeSet.objectLayoutMapSize > 0}" headerValue="Page Layouts">
-                            <div class="slds-truncate" title="Page Layouts">
-                                <ul class="slds-list--dotted">
-                                    <apex:repeat value="{!changeSet.objectLayoutMap}" var="key">
-                                        <li><apex:outputLink value="/{!changeSet.objectLayoutMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
-                                    </apex:repeat>
-                                </ul>
-                            </div>
-                        </apex:column>
-                    </apex:pageBlockTable>
-                    
-                    
-                    
-                </apex:outputPanel>
-            </apex:pageBlockSectionItem>
-        </apex:pageBlockSection>
-    </apex:pageBlock>
-    
+                    <input type="text" name="entityType" value="ApexClass"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.apexClassMap}" var="apxCls">
+                        <input type="text" name="ids" value="{!changeSet.apexClassMap[apxCls]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__Trigger"></iframe>
+                
+                <form target="frm__Trigger" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__Trigger">
+                    <input type="text" name="entityType" value="ApexTrigger"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.apexTriggerMap}" var="apxTgr">
+                        <input type="text" name="ids" value="{!changeSet.apexTriggerMap[apxTgr]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__ApexPage"></iframe>
+                <form target="frm__ApexPage" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__ApexPage">
+                    <input type="text" name="entityType" value="ApexPage"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.apexPageMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.apexPageMap[custField]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__ApexComponent"></iframe>
+                <form target="frm__ApexComponent" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__ApexComponent">
+                    <input type="text" name="entityType" value="ApexComponent"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.apexComponentMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.apexComponentMap[custField]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__EmailTemplate"></iframe>
+                <form target="frm__EmailTemplate" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__EmailTemplate">
+                    <input type="text" name="entityType" value="EmailTemplate"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.emailTemplateMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.emailTemplateMap[custField]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__StaticResource"></iframe>
+                <form target="frm__StaticResource" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__StaticResource">
+                    <input type="text" name="entityType" value="StaticResource"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.staticResourceMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.staticResourceMap[custField]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__CustomObject"></iframe>
+                <form target="frm__CustomObject" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__CustomObject">
+                    <input type="text" name="entityType" value="CustomEntityDefinition"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.customObjectMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.customObjectMap[custField]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__WorkflowRule"></iframe>
+                <form target="frm__WorkflowRule" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__WorkflowRule">
+                    <input type="text" name="entityType" value="WorkflowRule"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.workflowRuleMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.workflowRuleMap[custField]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__CustomFieldDefinition"></iframe>
+                <form target="frm__CustomFieldDefinition" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__CustomFieldDefinition">
+                    <input type="text" name="entityType" value="CustomFieldDefinition"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.objectFieldMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.objectFieldMap[custField]}"/>
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__EmailAlert"></iframe>
+                <form target="frm__EmailAlert" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__EmailAlert">
+                    <input type="text" name="entityType" value="ActionEmail"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.emailAlertMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.emailAlertMap[custField]}"/> 
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__WorkflowUpdate"></iframe>
+                <form target="frm__WorkflowUpdate" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__WorkflowUpdate">
+                    <input type="text" name="entityType" value="ActionFieldUpdate"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.workflowUpdateMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.workflowUpdateMap[custField]}"/> 
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__CustomLabel"></iframe>
+                <form target="frm__CustomLabel" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__CustomLabel">
+                    <input type="text" name="entityType" value="ExternalString"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.customLabelMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.customLabelMap[custField]}"/> 
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__RecordType"></iframe>
+                <form target="frm__RecordType" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__RecordType">
+                    <input type="text" name="entityType" value="RecordType"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.recordTypeMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.recordTypeMap[custField]}"/> 
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form>
+                
+                <iframe name="frm__PageLayout"></iframe>
+                <form target="frm__PageLayout" action="{!ServerUrl}/p/mfpkg/AddToPackageFromChangeMgmtUi?id={!changesetId}" method="POST" id="frm__PageLayout">
+                    <input type="text" name="entityType" value="Layout"/>
+                    <input type="text" name="id" value="{!changesetId}"/>
+                    <apex:repeat value="{!changeSet.objectLayoutMap}" var="custField">
+                        <input type="text" name="ids" value="{!changeSet.objectLayoutMap[custField]}"/> 
+                    </apex:repeat>
+                    <input type="text" name="save" value="Add To Change Set"/>
+                    <input type="text" name="_CONFIRMATIONTOKEN" value="{!confirmationToken}"/>
+                </form> 
+            </div>
+            
+            <div class="message confirmM3" role="alert" id="success_message" style="display:none">
+        <table border="0" cellpadding="0" cellspacing="0" class="messageTable" style="padding:0px;margin:0px;">
+            <tbody><tr valign="top">
+                <td style="width:30px;">
+                    <img alt="confirm" class="msgIcon" src="/s.gif" title="confirm"/>
+                </td>
+                <td class="messageCell"><div class="messageText"><span>
+                                <h4></h4></span>Components successfully added to<big><a style="text-decoration:underline" href="/{!changesetId}">changeset.</a></big><br/></div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+        </tbody></table>
+    </div>
+            <apex:pageBlockSection title="Change Set Components" columns="1" rendered="{!fileUploaded}">
+                <apex:pageBlockSectionItem >
+                    <apex:outputPanel layout="block">
+                        <button onclick="submitData()" id="btnSb" class="slds-button slds-button_brand">Confirm Submit</button> 
+                        
+                        <apex:pageBlockTable value="{!lstTable}" var="itr" style="margin-top:8px;" styleClass="componentTable">
+                            <apex:column rendered="{!changeSet.apexClassMapSize > 0}" headerValue="Apex Classes">
+                                <div class="slds-truncate" title="Apex Classes">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.apexClassMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.apexClassMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.apexTriggerMapSize > 0}" headerValue="Apex Triggers">
+                                <div class="slds-truncate" title="Apex Triggers">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.apexTriggerMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.apexTriggerMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.apexPageMapSize > 0}" headerValue="Visualforce Pages">
+                                <div class="slds-truncate" title="Visualforce Pages">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.apexPageMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.apexPageMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.apexComponentMapSize > 0}" headerValue="Visualforce Components">
+                                <div class="slds-truncate" title="Visualforce Components">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.apexComponentMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.apexComponentMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.emailTemplateMapSize > 0}" headerValue="Email Templates">
+                                <div class="slds-truncate" title="Email Templates">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.emailTemplateMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.emailTemplateMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.staticResourceMapSize > 0}" headerValue="Static Resources">
+                                <div class="slds-truncate" title="Static Resources">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.staticResourceMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.staticResourceMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.customObjectMapSize > 0}" headerValue="Custom Objects">
+                                <div class="slds-truncate" title="Custom Objects">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.customObjectMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.customObjectMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.objectFieldMapSize > 0}" headerValue="Custom Fields">
+                                <div class="slds-truncate" title="Custom Fields">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.objectFieldMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.objectFieldMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                                
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.workflowRuleMapSize > 0}" headerValue="Workflow Rules">
+                                <div class="slds-truncate" title="Workflow Rules">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.workflowRuleMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.workflowRuleMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.emailAlertMapSize > 0}" headerValue="Email Alerts">
+                                <div class="slds-truncate" title="Email Alerts">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.emailAlertMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.emailAlertMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.workflowUpdateMapSize > 0}" headerValue="Field Updates">
+                                <div class="slds-truncate" title="Field Updates">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.workflowUpdateMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.workflowUpdateMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.customLabelMapSize > 0}" headerValue="Custom Labels">
+                                <div class="slds-truncate" title="Custom Labels">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.customLabelMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.customLabelMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.recordTypeMapSize > 0}" headerValue="Record Types">
+                                <div class="slds-truncate" title="Record Types">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.recordTypeMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.recordTypeMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                            <apex:column rendered="{!changeSet.objectLayoutMapSize > 0}" headerValue="Page Layouts">
+                                <div class="slds-truncate" title="Page Layouts">
+                                    <ul class="slds-list--dotted">
+                                        <apex:repeat value="{!changeSet.objectLayoutMap}" var="key">
+                                            <li><apex:outputLink value="/{!changeSet.objectLayoutMap[key]}" target="_BLANK">{!key}</apex:outputLink></li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </apex:column>
+                        </apex:pageBlockTable>
+                        
+                        
+                        
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+
     <div id="loading" style="display:none">
         <img id="loading-image" src="{!URLFOR($Resource.quick_change_set,'loading.gif')}" alt="Loading..." />
     </div>
