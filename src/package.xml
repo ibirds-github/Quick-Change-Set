@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>QuickCSController</members>
+        <members>TestQuickCSController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>QuickChangeSet</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>quick_change_set</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>Quick_Change_Set</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Quick_Change_Set</members>
+        <name>CustomApplication</name>
+    </types>
+    <version>38.0</version>
+</Package>
