@@ -33,13 +33,13 @@ For now we are supporting following components. In near future, we need to suppo
 * Email Templates -> Email Template Name  
 * Static Resources -> API name of static resource
 * Custom Objects -> API name of object
-* Custom Fields -> <API name of object>.<API name of field>
-* Workflow Rules -> <API name of object>.<Rule Name>
+* Custom Fields -> [API name of object].[API name of field]
+* Workflow Rules -> [API name of object].[Rule Name]
 * Email Alerts -> API name of email alert
 * Field Updates -> Name of the field update
 * Custom Labels -> API name of custom field
-* Record Types -> <API name of object>.<DeveloperName of record type>
-* Page Layouts -> <API name of object.<Name of the layout>
+* Record Types -> [API name of object].[DeveloperName of record type]
+* Page Layouts -> [API name of object].[Name of the layout]
 
 
 ## Known Issues
