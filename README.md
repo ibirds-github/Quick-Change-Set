@@ -2,6 +2,7 @@
 This tool is navtive  (Apex / visualforce) based screen. It helps user to upload their Changeset CSV component files at one shot from this screen. It helps users to avoid adding multiple items in changeset with traditional long efforts.
 
 You can install this tool from this un-managed package as well:
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t1U000006d5U6
 
 ## Prerequisite
 You need to first add your "Quick Change Set" page url domain into remote site settigs
