@@ -24,22 +24,22 @@ You need to first add your "Quick Change Set" page url domain into remote site s
 * Once completed, it will show a success message with changeset link
 * For more info: [watch here](https://www.youtube.com/watch?v=20f6IIyZNbE)
 
-## Supported Components
+## Supported Components and Rules to mention in CSV file
 For now we are supporting following components. In near future, we need to support more:
-* Apex Classes
-* Apex Triggers
-* Visualforce Pages
-* Visualforce Components
-* Email Templates
-* Static Resources
-* Custom Objects
-* Custom Fields
-* Workflow Rules
-* Email Alerts
-* Field Updates
-* Custom Labels
-* Record Types
-* Page Layouts
+* Apex Classes -> API name of apex class
+* Apex Triggers -> API name of apex trigger
+* Visualforce Pages -> API name of page
+* Visualforce Components -> API name of VF components
+* Email Templates -> Email Template Name  
+* Static Resources -> API name of static resource
+* Custom Objects -> API name of object
+* Custom Fields -> <API name of object>.<API name of field>
+* Workflow Rules -> <API name of object>.<Rule Name>
+* Email Alerts -> API name of email alert
+* Field Updates -> Name of the field update
+* Custom Labels -> API name of custom field
+* Record Types -> <API name of object>.<DeveloperName of record type>
+* Page Layouts -> <API name of object.<Name of the layout>
 
 
 ## Known Issues
