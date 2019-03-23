@@ -9,7 +9,7 @@ You need to first add your instance server url into remote site settigs
 ## Steps
 * Open the Tab "Quick Change Set", it will open the "QuickChangeSet" page
 * On the screen, it will ask three inputs
-  * Input file: This is the CSV file for the changeset. Here is the example csv file. NOTE: CSV file format and sequences of columns MUST be same as given in csv file.
+  * Input file: This is the CSV file for the changeset. Here is the [example csv file](https://github.com/ibirds-github/Quick-Change-Set/blob/master/csv-example.csv "example csv file"). NOTE: CSV file format and sequences of columns MUST be same as given in csv file.
   * Change Set Id: To get this from your org
     * Open your changeset which you created
     * Click on "Add" button, right click on anywhere from the page to check inspect elements or open the View Source Code window
