@@ -1,9 +1,9 @@
 # Quick-Change-Set
-This tool is native (Apex / visual force) based screen. It helps user to upload their Changeset CSV component files at one shot from this screen. It helps users to avoid adding multiple items in changeset with traditional long efforts.
+This tool is native (Apex / Visual Force) based screen. It helps user to upload their Changeset CSV component files at one shot from this screen. It helps users to avoid adding multiple items in changeset with traditional long efforts.
 
 You can install this tool from this un-managed package as well:
 
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t1U000006d5U6
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t1U000006d5cW
 
 ## Prerequisite
 You need to first add your "Quick Change Set" page url domain into remote site settings
@@ -18,7 +18,7 @@ You need to first add your "Quick Change Set" page url domain into remote site s
     * Click on "Add" button, right click on anywhere from the page to check inspect elements or open the View Source Code window
     * Grab the "id" of changeset from this source code
   * Confirmation Token: To get this from your org
-    * From the source code window which you opened in above step, get the value from "_CONFIRMATION_TOKEN" input tag
+    * From the source code window which you opened in above step, get the value from "_CONFIRMATIONTOKEN" input tag
 * Click on "Upload File" button to parse this file. It will show all possible components in bottom table with links. You can click on any output component to go directly to setup record for that component
 * Click Confirm Submit to execute the script. It will start adding components into your salesforce changeset
 * Once completed, it will show a success message with changeset link
