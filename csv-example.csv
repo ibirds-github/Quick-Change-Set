@@ -1,0 +1,4 @@
+Apex Classes,Apex Triggers,Visualforce Pages,Visualforce Components,Email Templates,Static Resources,Custom Objects,Custom Fields,Workflow Rules,Email Alerts,Field Updates,Custom Labels,Record Types,Page Layouts
+superSort,AccountTrigger,ChatterAnswersLogin,site_footer,Account Close,ServiceCloudLogo,Articles__c,Articles__c.Active__c,Account.Book Store Registration On Account,Close_Article_Book_Store,Update Store,Company_Website,Account.Book_Owner,Articles__c.Article Layout
+,,TrialCustomerPortalHomePage,store_header,Book Store Registration,TrialPortalBanner,,Articles__c.Author__c,Articles__c.Fire New Article Event,,,Store_URL,Account.Patient,Account.Account Layout
+,,,,,,,Account.Book_Store_Number__c,,,,,Articles__c.Gov_Subject,
