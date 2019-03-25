@@ -3,7 +3,7 @@ This tool is native (Apex / Visual Force) based screen. It helps user to upload 
 
 You can install this tool from this un-managed package as well:
 
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t1U000006d5cW
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t1U000006d5gj
 
 ## Prerequisite
 You need to first add your "Quick Change Set" page url domain into remote site settings
