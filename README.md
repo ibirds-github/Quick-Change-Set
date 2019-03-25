@@ -25,7 +25,7 @@ You need to first add your "Quick Change Set" page url domain into remote site s
 * For more info: [watch here](https://www.youtube.com/watch?v=20f6IIyZNbE)
 
 ## Supported Components and Rules to mention in CSV file
-For now we are supporting following components. In near future, we need to support more:
+For now we are supporting following components. In near future, we need to support more. All names must be case sensitive and must exact match to salesforce Name/DeveloperName exact case
 * Apex Classes -> API name of apex class
 * Apex Triggers -> API name of apex trigger
 * Visualforce Pages -> API name of page
@@ -51,3 +51,5 @@ For now we are supporting following components. In near future, we need to suppo
 6. Delete functionality is not given in this tool for now.
 7. CSV file format must be same as given in demo file and columns must be in given sequences only
 8. This tool is tested on classic salesforce only so far. Not sure how it will work on lightning UI. Need to do couple of changes to support lightning UI
+9. All names must be exact same as appear in salesforce (Case Sensitives)
+10. In Display output table, it does not show "__c" in object/field names
