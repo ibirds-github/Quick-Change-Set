@@ -79,6 +79,7 @@ public class QuickCSController{
                     if(fieldParts[0].contains('__c')){                    
                         changeSet.objectMap.put(fieldParts[0].replace('__c',''), null);
                         changeSet.objectFieldMap.put(fieldParts[0].replace('__c','')+'.'+fieldParts[1].replace('__c',''), null);
+                        changeSet.reverseObjectMap.put(fieldParts[0].replace('__c',''), fieldParts[0].replace('__c',''));
                     }else{
                         changeSet.objectFieldMap.put(fieldParts[0]+'.'+fieldParts[1].replace('__c',''), null);
                         changeSet.reverseObjectMap.put(fieldParts[0], fieldParts[0]);
@@ -157,11 +158,15 @@ public class QuickCSController{
             changeSet.reverseObjectMap.put(changeSet.customObjectMap.get(key), key);
         }
  
+        fillComponentMap(changeSet.objectMap.keyset(), changeSet.objectMap, changeSet.reverseObjectMap, 'CustomObject', 'DeveloperName');
+        
+        for(String key : changeSet.objectMap.keyset()){
+            changeSet.reverseObjectMap.put(changeSet.objectMap.get(key), key);
+        }
         
         fillComponentMap(changeSet.workflowRuleSet, changeSet.workflowRuleMap, changeSet.reverseObjectMap, 'WorkflowRule', 'Name', true);
         
         fillComponentMap(changeSet.customFieldSet, changeSet.objectFieldMap, changeSet.reverseObjectMap, 'CustomField', 'DeveloperName', true);
-        system.debug(changeSet.objectFieldMap);
         fillComponentMap(changeSet.emailAlertMap.keyset(), changeSet.emailAlertMap, changeSet.reverseObjectMap, 'WorkflowAlert', 'DeveloperName');
         
         fillComponentMap(changeSet.workflowUpdateMap.keyset(), changeSet.workflowUpdateMap, changeSet.reverseObjectMap, 'WorkflowFieldUpdate', 'Name');
